@@ -46,11 +46,16 @@
     }
   }
 
-  function sendEmail() {
-    const sub  = encodeURIComponent(subject || 'Contato pelo portfólio');
-    const body = encodeURIComponent(message || '');
-    window.location.href = `mailto:${personal.email}?subject=${sub}&body=${body}`;
-  }
+function sendEmail() {
+  const to   = encodeURIComponent(personal.email);
+  const sub  = encodeURIComponent(subject || 'Contato pelo portfólio');
+  const body = encodeURIComponent(message || '');
+  window.open(
+    `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${sub}&body=${body}`,
+    '_blank',
+    'noopener,noreferrer'
+  );
+}
 </script>
 
 <svelte:window on:keydown={handleKey} />
