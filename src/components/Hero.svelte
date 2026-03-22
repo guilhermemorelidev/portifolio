@@ -1,15 +1,6 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { personal } from '../lib/data';
-
   let imgError = false;
-  let scrolled = false;
-
-  onMount(() => {
-    const handler = () => { if (window.scrollY > 80) scrolled = true; };
-    window.addEventListener('scroll', handler, { passive: true });
-    return () => window.removeEventListener('scroll', handler);
-  });
 </script>
 
 <section id="hero" class="hero">
@@ -82,12 +73,6 @@
   </div>
 </section>
 
-<!-- Scroll hint: fixo na viewport, some ao rolar, oculto no mobile -->
-<div class="scroll-hint" class:hidden={scrolled} aria-hidden="true">
-  <div class="scroll-line"></div>
-  <span>scroll</span>
-</div>
-
 <style>
   .hero {
     position: relative;
@@ -96,7 +81,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 6rem 2rem 6rem;
+    padding: 6rem 2rem;
     overflow: visible;
   }
 
@@ -298,52 +283,6 @@
     background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
     z-index: 1;
     pointer-events: none;
-  }
-
-  /* ── Scroll hint ──
-     - position: fixed para não sobrepor o conteúdo
-     - display: none em mobile (hover:none = touch device)
-     - desaparece com fade quando o usuário começa a rolar
-  ── */
-  .scroll-hint {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    color: rgba(255,255,255,0.22);
-    font-size: 0.62rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    pointer-events: none;
-    /* aparece depois da animação de intro */
-    animation: fadeHint 1s ease 3.5s both;
-    transition: opacity 0.4s ease;
-  }
-
-  /* Some ao rolar */
-  .scroll-hint.hidden { opacity: 0; }
-
-  @keyframes fadeHint { from { opacity: 0; } to { opacity: 1; } }
-
-  .scroll-line {
-    width: 1px; height: 32px;
-    background: linear-gradient(to bottom, rgba(139,92,246,0.5), transparent);
-    animation: scrollAnim 2.4s ease-in-out infinite;
-  }
-
-  @keyframes scrollAnim {
-    0%, 100% { transform: scaleY(1); opacity: 1; }
-    50% { transform: scaleY(0.45); opacity: 0.25; }
-  }
-
-  /* Oculto em dispositivos touch (mobile/tablet) */
-  @media (hover: none) {
-    .scroll-hint { display: none; }
   }
 
   @media (max-width: 960px) {
