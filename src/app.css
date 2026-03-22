@@ -2,16 +2,11 @@
    PORTFÓLIO GUILHERME MORELI — Global Styles
    ================================================================ */
 
-/* Fontes — Inter (corpo) + DM Serif Display (títulos) */
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @import "tailwindcss";
 
-/* ----------------------------------------------------------------
-   Variáveis e Tokens
-   ---------------------------------------------------------------- */
 :root {
-  /* Cores */
   --c-bg:       #09090f;
   --c-surface:  rgba(255,255,255,0.03);
   --c-border:   rgba(255,255,255,0.07);
@@ -20,21 +15,12 @@
   --c-orange:   #f97316;
   --c-text:     rgba(255,255,255,0.85);
   --c-muted:    rgba(255,255,255,0.45);
-
-  /* Fontes */
   --font-sans:  'Inter', system-ui, -apple-system, sans-serif;
   --font-serif: 'DM Serif Display', Georgia, serif;
   --font-mono:  'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
 }
 
-/* ----------------------------------------------------------------
-   Reset
-   ---------------------------------------------------------------- */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   scroll-behavior: smooth;
@@ -50,48 +36,34 @@ body {
   overflow-x: hidden;
 }
 
-/* Scrollbar customizada */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: rgba(139,92,246,0.25);
-  border-radius: 99px;
-}
+::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.25); border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(139,92,246,0.5); }
 
-/* Selection */
-::selection {
-  background: rgba(139,92,246,0.3);
-  color: #fff;
-}
+::selection { background: rgba(139,92,246,0.3); color: #fff; }
 
 /* ----------------------------------------------------------------
-   Utilitários globais
+   .section — sem opacity nem transform aqui.
+   O GSAP anima os elementos INTERNOS (labels, títulos, cards).
+   A seção container nunca fica invisível para o ScrollTrigger
+   conseguir calcular as posições corretamente.
    ---------------------------------------------------------------- */
-
-/* Seção padrão */
 .section {
   position: relative;
   z-index: 1;
   padding: 6rem 2rem;
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* Remover quaisquer resquícios de .section.visible que possam existir */
+.section.visible { /* intencionalmente vazio */ }
 
-/* Container padrão */
 .section-inner {
   max-width: 1160px;
   margin: 0 auto;
   width: 100%;
 }
 
-/* Label de seção */
 .section-label {
   display: flex;
   align-items: center;
@@ -111,7 +83,6 @@ body {
   background: rgba(139,92,246,0.4);
 }
 
-/* Título de seção — DM Serif */
 .section-title {
   font-family: var(--font-serif);
   font-size: clamp(2rem, 4vw, 3.2rem);
@@ -122,7 +93,6 @@ body {
   margin-bottom: 0;
 }
 
-/* Destaque em gradiente */
 .accent {
   background: linear-gradient(135deg, var(--c-purple) 0%, var(--c-indigo) 50%, var(--c-orange) 100%);
   -webkit-background-clip: text;
@@ -130,7 +100,6 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Glass card */
 .glass-card {
   background: rgba(255,255,255,0.025);
   border: 1px solid rgba(255,255,255,0.07);
@@ -139,7 +108,6 @@ body {
   -webkit-backdrop-filter: blur(12px);
 }
 
-/* Divisor */
 .divider {
   width: 100%;
   height: 1px;
