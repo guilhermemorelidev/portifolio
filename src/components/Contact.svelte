@@ -1,23 +1,53 @@
 <script lang="ts">
   import { personal } from '../lib/data';
+  import { tick } from 'svelte';
 
   let modalOpen = false;
   let subject = '';
   let message = '';
 
-  function openModal() { modalOpen = true; subject = ''; message = ''; }
-  function closeModal() { modalOpen = false; }
+  let modalEl: HTMLDivElement;
+  let previousFocus: HTMLElement | null = null;
+
+  async function openModal() {
+    previousFocus = document.activeElement as HTMLElement;
+    modalOpen = true;
+    subject = '';
+    message = '';
+    await tick();
+    modalEl?.focus();
+  }
+
+  async function closeModal() {
+    modalOpen = false;
+    await tick();
+    previousFocus?.focus();
+  }
 
   function handleBackdrop(e: MouseEvent) {
     if ((e.target as HTMLElement).classList.contains('modal-backdrop')) closeModal();
   }
 
   function handleKey(e: KeyboardEvent) {
-    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Escape' && modalOpen) closeModal();
+  }
+
+  function trapTab(e: KeyboardEvent) {
+    if (!modalOpen || e.key !== 'Tab') return;
+    const focusable = modalEl.querySelectorAll<HTMLElement>(
+      'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
+    );
+    const first = focusable[0];
+    const last  = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+    }
   }
 
   function sendEmail() {
-    const sub = encodeURIComponent(subject || 'Contato pelo portfólio');
+    const sub  = encodeURIComponent(subject || 'Contato pelo portfólio');
     const body = encodeURIComponent(message || '');
     window.location.href = `mailto:${personal.email}?subject=${sub}&body=${body}`;
   }
@@ -91,11 +121,20 @@
 {#if modalOpen}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div class="modal-backdrop" on:click={handleBackdrop} role="dialog" aria-modal="true" aria-label="Formulário de contato">
-    <div class="modal glass-card">
+  <!-- Backdrop: sem role nem aria-hidden — é só um overlay decorativo -->
+  <div class="modal-backdrop" on:click={handleBackdrop}>
+    <div
+      class="modal glass-card"
+      bind:this={modalEl}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Formulário de contato"
+      tabindex="-1"
+      on:keydown={trapTab}
+    >
       <div class="modal-header">
         <h3 class="modal-title">Enviar mensagem</h3>
-        <button class="modal-close" on:click={closeModal} aria-label="Fechar">
+        <button class="modal-close" on:click={closeModal} aria-label="Fechar modal">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 6L6 18M6 6l12 12"/>
           </svg>
@@ -109,12 +148,24 @@
 
       <div class="modal-field">
         <label class="field-label" for="subject">Assunto</label>
-        <input id="subject" class="field-input" type="text" placeholder="Ex: Proposta de projeto..." bind:value={subject} />
+        <input
+          id="subject"
+          class="field-input"
+          type="text"
+          placeholder="Ex: Proposta de projeto..."
+          bind:value={subject}
+        />
       </div>
 
       <div class="modal-field">
         <label class="field-label" for="message">Mensagem</label>
-        <textarea id="message" class="field-input field-textarea" placeholder="Olá Guilherme, gostaria de..." bind:value={message} rows="5"></textarea>
+        <textarea
+          id="message"
+          class="field-input field-textarea"
+          placeholder="Olá Guilherme, gostaria de..."
+          bind:value={message}
+          rows="5"
+        ></textarea>
       </div>
 
       <div class="modal-actions">
@@ -252,7 +303,6 @@
     transform: translateY(-2px);
   }
 
-  /* Modal */
   .modal-backdrop {
     position: fixed;
     inset: 0;
@@ -273,6 +323,7 @@
     max-width: 480px;
     padding: 1.75rem;
     animation: slideUp 0.22s ease;
+    outline: none;
   }
 
   @keyframes slideUp {
