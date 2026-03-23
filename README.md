@@ -1,47 +1,144 @@
-# Svelte + TS + Vite
+# 🌐 Portfólio Pessoal — Guilherme Moreli
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+Portfólio pessoal desenvolvido com **Svelte 5**, **TypeScript** e **Tailwind CSS 4**, com fundo animado em Canvas, animações de scroll via GSAP e deploy automático na Vercel.
 
-## Recommended IDE Setup
+---
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+## ✨ Destaques
 
-## Need an official Svelte framework?
+- Fundo generativo animado em **Canvas API** com orbs em movimento
+- Animações de scroll suaves com **GSAP + ScrollTrigger**
+- Efeito **tilt 3D** nos cards de projeto (desktop)
+- Design responsivo com tema escuro
+- Otimizado para performance — **Vercel Analytics** e **Speed Insights** integrados
+- Respeita `prefers-reduced-motion` para acessibilidade
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+---
 
-## Technical considerations
+## 🛠️ Tecnologias
 
-**Why use this over SvelteKit?**
+| Tecnologia | Versão | Uso |
+|---|---|---|
+| Svelte | 5 | Framework principal |
+| TypeScript | 5.9 | Tipagem estática |
+| Tailwind CSS | 4 | Estilização utilitária |
+| Vite | 6 | Build e dev server |
+| GSAP | 3.12 | Animações de scroll e tilt |
+| Vercel | — | Deploy e analytics |
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+---
 
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+## 📁 Estrutura do projeto
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+```
+portifolio/
+├── public/
+│   ├── img.jpeg          # Sua foto de perfil
+│   ├── favicon.svg
+│   └── icons.svg
+│
+├── src/
+│   ├── components/
+│   │   ├── Hero.svelte       # Seção principal
+│   │   ├── About.svelte      # Sobre mim
+│   │   ├── Skills.svelte     # Habilidades com barras animadas
+│   │   ├── Projects.svelte   # Grid de projetos
+│   │   ├── Education.svelte  # Timeline de formação
+│   │   ├── Contact.svelte    # Formulário de contato com modal
+│   │   ├── BlackHole.svelte  # Canvas animado de fundo
+│   │   ├── Header.svelte     # Navegação com menu mobile
+│   │   └── Footer.svelte
+│   │
+│   ├── lib/
+│   │   └── data.ts           # Todos os dados do portfólio (edite aqui)
+│   │
+│   ├── App.svelte            # Raiz — inicializa GSAP após intro
+│   ├── app.css               # Variáveis globais e tokens de design
+│   └── main.ts               # Entry point
+│
+├── index.html
+├── vite.config.ts
+└── package.json
+```
 
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
+---
 
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
+## 🚀 Como executar localmente
 
-**Why include `.vscode/extensions.json`?**
+### Pré-requisitos
 
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
+- [Node.js 20+](https://nodejs.org/)
+- [pnpm](https://pnpm.io/) (recomendado) ou npm
 
-**Why enable `allowJs` in the TS template?**
+### Passos
 
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
+1. **Clone o repositório**
+```bash
+git clone https://github.com/guilhermemorelidev/portifolio.git
+cd portifolio
+```
 
-**Why is HMR not preserving my local component state?**
+2. **Instale as dependências**
+```bash
+pnpm install
+```
 
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
+3. **Inicie o servidor de desenvolvimento**
+```bash
+pnpm dev
+```
 
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
+4. **Acesse no navegador**
+```
+http://localhost:5173
+```
+
+### Build para produção
+```bash
+pnpm build
+pnpm preview
+```
+
+---
+
+## ⚙️ Personalizando o portfólio
+
+Todos os dados ficam centralizados em **`src/lib/data.ts`**. Para personalizar, edite apenas esse arquivo:
 
 ```ts
-// store.ts
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+export const personal = {
+  name: 'Seu Nome',
+  role: 'Sua Stack',
+  tagline: 'Sua tagline aqui.',
+  bio: `Sua bio aqui.`,
+  email: 'seuemail@exemplo.com',
+  github: 'https://github.com/seu-usuario',
+  linkedin: 'https://linkedin.com/in/seu-perfil',
+  image: '/img.jpeg', // coloque sua foto em /public/img.jpeg
+};
 ```
+
+Você também pode editar os arrays `skills`, `projects` e `education` no mesmo arquivo para atualizar habilidades, projetos e formação.
+
+---
+
+## 📦 Deploy na Vercel
+
+O projeto já está configurado para deploy automático na Vercel.
+
+1. Importe o repositório em [vercel.com](https://vercel.com)
+2. Framework preset: **Vite**
+3. Build command: `pnpm build`
+4. Output directory: `dist`
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+<p align="center">
+  Desenvolvido por <a href="https://github.com/guilhermemorelidev">Guilherme Moreli</a>
+</p>
