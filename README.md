@@ -133,6 +133,10 @@ O projeto já está configurado para deploy automático na Vercel.
 
 ---
 
+https://github.com/user-attachments/assets/37afb9df-56b0-42db-80aa-694b6a1b0407
+
+--- 
+
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para mais detalhes.
